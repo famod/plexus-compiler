@@ -286,12 +286,12 @@ public abstract class AbstractCompilerTest
 
     public String getTargetVersion()
     {
-        return null;
+        return "8";
     }
 
     public String getSourceVersion()
     {
-        return null;
+        return "8";
     }
 
 
@@ -359,7 +359,7 @@ public abstract class AbstractCompilerTest
         }
 
         System.out.println( "java.version is: " + realJavaVersion + "\ntrimmed java version is: " + javaVersion
-                                + "\ncomparison: \"1.5\".compareTo( \"" + javaVersion + "\" ) == " + ( "1.5".compareTo(
+                                + "\ncomparison: \"1.8\".compareTo( \"" + javaVersion + "\" ) == " + ( "1.8".compareTo(
             javaVersion ) ) + "\n" );
 
         return javaVersion;
