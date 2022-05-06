@@ -24,13 +24,6 @@ package org.codehaus.plexus.compiler.javac;
  * SOFTWARE.
  */
 
-import org.codehaus.plexus.compiler.AbstractCompilerTest;
-import org.codehaus.plexus.compiler.CompilerConfiguration;
-import org.codehaus.plexus.util.StringUtils;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +31,13 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.codehaus.plexus.compiler.AbstractCompilerTest;
+import org.codehaus.plexus.compiler.CompilerConfiguration;
+import org.codehaus.plexus.util.StringUtils;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -67,8 +67,9 @@ public abstract class AbstractJavacCompilerTest
     protected int expectedErrors()
     {
         String javaVersion = getJavaVersion();
-        if (javaVersion.contains("9.0")||javaVersion.contains("11")||javaVersion.contains("14")||
-            javaVersion.contains("15")||javaVersion.contains("16")||javaVersion.contains("17")){
+        if (javaVersion.contains("9.0")||javaVersion.contains("11")||javaVersion.contains("17")
+                ||javaVersion.contains("18")||javaVersion.contains("19"))
+        {
             // lots of new warnings about obsoletions for future releases
             return 5;
         }
@@ -87,15 +88,11 @@ public abstract class AbstractJavacCompilerTest
     protected int expectedWarnings()
     {
         String javaVersion = getJavaVersion();
-        if (javaVersion.contains("9.0")||javaVersion.contains("11")||javaVersion.contains("14")||
-            javaVersion.contains("15")||javaVersion.contains("16")||javaVersion.contains("17")){
+        if (javaVersion.contains("9.0")||javaVersion.contains("11")||javaVersion.contains("17")
+                ||javaVersion.contains("18")||javaVersion.contains("19"))
+        {
             return 1;
         }
-        if (javaVersion.contains("9.0")){
-            // lots of new warnings about obsoletions for future releases
-            return 8;
-        }
-
         if (javaVersion.contains("1.8")){
             // lots of new warnings about obsoletions for future releases
             return 30;
@@ -114,23 +111,21 @@ public abstract class AbstractJavacCompilerTest
     public String getTargetVersion()
     {
         String javaVersion = getJavaVersion();
-        if (javaVersion.contains("9.0")){
-            return "1.7";
-        }
-        if (javaVersion.contains("11")){
+        if ( javaVersion.contains( "11" ) )
+        {
             return "11";
         }
-        if (javaVersion.contains("14")){
-            return "14";
-        }
-        if (javaVersion.contains("15")){
-            return "15";
-        }
-        if (javaVersion.contains("16")){
-            return "16";
-        }
-        if (javaVersion.contains("17")){
+        if ( javaVersion.contains( "17" ) )
+        {
             return "17";
+        }
+        if ( javaVersion.contains( "18" ) )
+        {
+            return "18";
+        }
+        if ( javaVersion.contains( "19" ) )
+        {
+            return "19";
         }
         return super.getTargetVersion();
     }
@@ -139,27 +134,21 @@ public abstract class AbstractJavacCompilerTest
     public String getSourceVersion()
     {
         String javaVersion = getJavaVersion();
-        if (javaVersion.contains("9.0"))
-        {
-            return "1.7";
-        }
-        if (javaVersion.contains("11"))
+        if ( javaVersion.contains( "11" ) )
         {
             return "11";
         }
-        if (javaVersion.contains("14"))
+        if ( javaVersion.contains( "17" ) )
         {
-            return "14";
-        }
-        if (javaVersion.contains("15"))
-        {
-            return "15";
-        }
-        if (javaVersion.contains("16")){
-            return "16";
-        }
-        if (javaVersion.contains("17")){
             return "17";
+        }
+        if ( javaVersion.contains( "18" ) )
+        {
+            return "18";
+        }
+        if ( javaVersion.contains( "19" ) )
+        {
+            return "19";
         }
         return super.getTargetVersion();
     }
@@ -168,13 +157,14 @@ public abstract class AbstractJavacCompilerTest
     protected Collection<String> expectedOutputFiles()
     {
         String javaVersion = getJavaVersion();
-        if (javaVersion.contains("9.0")||javaVersion.contains("11")||javaVersion.contains("14")||
-            javaVersion.contains("15")||javaVersion.contains("16")||javaVersion.contains("17")){
-            return Arrays.asList( new String[]{ "org/codehaus/foo/Deprecation.class", "org/codehaus/foo/ExternalDeps.class",
-                "org/codehaus/foo/Person.class"} );
+        if (javaVersion.contains("9.0")||javaVersion.contains("11")||javaVersion.contains("17")
+                ||javaVersion.contains("18")||javaVersion.contains("19"))
+        {
+            return Arrays.asList( "org/codehaus/foo/Deprecation.class", "org/codehaus/foo/ExternalDeps.class",
+                    "org/codehaus/foo/Person.class" );
         }
-        return Arrays.asList( new String[]{ "org/codehaus/foo/Deprecation.class", "org/codehaus/foo/ExternalDeps.class",
-            "org/codehaus/foo/Person.class", "org/codehaus/foo/ReservedWord.class" } );
+        return Arrays.asList( "org/codehaus/foo/Deprecation.class", "org/codehaus/foo/ExternalDeps.class",
+                "org/codehaus/foo/Person.class", "org/codehaus/foo/ReservedWord.class" );
     }
 
     protected void internalTest(CompilerConfiguration compilerConfiguration, List<String> expectedArguments) {
